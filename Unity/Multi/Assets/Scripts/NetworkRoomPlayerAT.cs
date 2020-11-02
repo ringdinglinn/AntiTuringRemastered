@@ -53,6 +53,7 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
         UpdateDisplay();
     }
 
+
     public void HandleReadyStatusChanged(bool oldValue, bool newValue) => UpdateDisplay();
     public void HandleDisplayNameChanged(string oldValue, string newValue) => UpdateDisplay();
 
