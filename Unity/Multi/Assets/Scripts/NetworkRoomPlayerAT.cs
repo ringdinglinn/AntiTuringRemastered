@@ -9,16 +9,23 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject lobbyUI;
-    [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[15];
-    [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[15];
+    [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[16];
+    [SerializeField] private TMP_Text[] playerReadyTexts = new TMP_Text[16];
     [SerializeField] private Button startGameButton;
+    [SerializeField] private GameObject gameSettings;
+    [SerializeField] private TMP_Text nrInvestigatorsText;
 
     [SyncVar(hook = nameof(HandleDisplayNameChanged))]
     public string DisplayName = "Loading...";
     [SyncVar(hook = nameof(HandleReadyStatusChanged))]
     public bool IsReady = false;
+    [SyncVar]
+    public int nrInvestigators;
 
     private bool isLeader;
+    public bool isInvestigator;
+
+    public bool[] roleIndex;
 
     public override void OnStartAuthority() {
         CmdSetDisplayName(PlayerNameInput.DisplayName);
@@ -28,7 +35,8 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
     public bool IsLeader {
         set {
             isLeader = value;
-            startGameButton.gameObject.SetActive(true);
+            startGameButton.gameObject.SetActive(value);
+            gameSettings.SetActive(value);
         }
     }
 
@@ -107,8 +115,60 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
 
     [Command]
     public void CmdStartGame() {
+        DistributeRoles();
         // Server ensures that this client connection is the leader
         if (Room.RoomPlayers[0].connectionToClient != connectionToClient) return;
         Room.StartGame();
+    }
+
+    [Server]
+    private void DistributeRoles() {
+        roleIndex = new bool[Room.RoomPlayers.Count];
+        for (int i = 0; i < nrInvestigators; i++) {
+            roleIndex[i] = true;
+        }
+
+        HandleRoleIndexChanged();
+        RpcRoleIndexChanged(roleIndex);
+    }
+
+    static bool[] RandomizeArray(bool[] arr) {
+        for (var i = arr.Length - 1; i > 0; i--) {
+            var r = Random.Range(0, arr.Length);
+            var tmp = arr[i];
+            arr[i] = arr[r];
+            arr[r] = tmp;
+        }
+        return arr;
+    }
+
+    [ClientRpc]
+    public void RpcRoleIndexChanged(bool[] newIndex) {
+        roleIndex = newIndex;
+        HandleRoleIndexChanged();
+    }
+
+    private void HandleRoleIndexChanged() {
+        Room.SetRoleIndex(roleIndex);
+    }
+
+    public void ChangeNrInvestigators(string input) {
+        if (isLeader) {
+            if (int.TryParse(input, out int result)) {
+                CmdSetNrInvestigators(result);
+                nrInvestigatorsText.color = Color.black;
+            } else {
+                nrInvestigatorsText.color = Color.red;
+            }
+        }
+    }
+
+    public void SetColorBlack(string input) {
+        nrInvestigatorsText.color = Color.black;
+    }
+
+    [Command]
+    public void CmdSetNrInvestigators(int n) {
+        nrInvestigators = n;
     }
 } 

@@ -1,17 +1,17 @@
 ﻿<Properties StartupConfiguration="{594E4E31-484D-3027-BFFE-5226C52D2CD8}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Mirror/Runtime/Transport/Telepathy/Client.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/NetworkGamePlayerAT.cs">
     <Files>
-      <File FileName="Assets/Scripts/NetworkRoomPlayerAT.cs" Line="109" Column="29" />
-      <File FileName="Assets/Scripts/NetworkManagerAT.cs" Line="32" Column="48" />
-      <File FileName="Assets/Scripts/NetworkGamePlayerAT.cs" Line="42" Column="1" />
+      <File FileName="Assets/Scripts/NetworkRoomPlayerAT.cs" Line="56" Column="26" />
+      <File FileName="Assets/Scripts/NetworkManagerAT.cs" Line="77" Column="25" />
+      <File FileName="Assets/Scripts/NetworkGamePlayerAT.cs" Line="29" Column="9" />
       <File FileName="Assets/Scripts/PlayerNameInput.cs" Line="11" Column="1" />
-      <File FileName="Assets/Scripts/ChatBehaviour.cs" Line="50" Column="6" />
+      <File FileName="Assets/Scripts/ChatBehaviour.cs" Line="63" Column="43" />
       <File FileName="Assets/Mirror/Runtime/Transport/Telepathy/Client.cs" Line="74" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="fb37757d-62fd-4357-aac5-7b8e62945c63" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="789ed148-3de6-4877-99ef-969268660e2e" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

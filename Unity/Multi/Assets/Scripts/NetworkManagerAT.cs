@@ -21,9 +21,13 @@ public class NetworkManagerAT : NetworkManager {
 
     public List<NetworkRoomPlayerAT> RoomPlayers { get; } = new List<NetworkRoomPlayerAT>();
     public List<NetworkGamePlayerAT> GamePlayers { get; } = new List<NetworkGamePlayerAT>();
-
+    private bool[] roleIndex;
 
     public override void OnStartServer() => spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList<GameObject>();
+
+    private int nrInvestigators;
+    private int nrAwareAI;
+    private int nrPlayers;
 
     public override void OnStartClient() {
         var spawnablePrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
@@ -101,9 +105,12 @@ public class NetworkManagerAT : NetworkManager {
         if (SceneManager.GetActiveScene().path == menuScene) {
             if (!IsReadyToStart()) return;
 
+            nrPlayers = RoomPlayers.Count;
+            nrAwareAI = nrPlayers - nrInvestigators;
             ServerChangeScene("SampleScene");
         }
     }
+
 
     public override void ServerChangeScene(string newSceneName) {
         if (SceneManager.GetActiveScene().path == menuScene && newSceneName == "SampleScene") {
@@ -111,12 +118,26 @@ public class NetworkManagerAT : NetworkManager {
                 var conn = RoomPlayers[i].connectionToClient;
                 var gamePlayerInstance = Instantiate(gamePlayerPrefab);
                 gamePlayerInstance.SetDisplayName(RoomPlayers[i].DisplayName);
-
+                
                 NetworkServer.Destroy(conn.identity.gameObject);
                 NetworkServer.ReplacePlayerForConnection(conn, gamePlayerInstance.gameObject);
             }
         }
         base.ServerChangeScene(newSceneName);
+    }
+
+    public bool GetRole(int i) {
+        return roleIndex[i];
+    }
+
+    public void SetRoleIndex(bool[] newIndex) {
+        Debug.Log("SetRoleIndex()");
+        roleIndex = new bool[RoomPlayers.Count];
+        roleIndex = newIndex;
+    }
+
+    public void SetNrInvestigators(int n) {
+        nrInvestigators = n;
     }
 }
 
