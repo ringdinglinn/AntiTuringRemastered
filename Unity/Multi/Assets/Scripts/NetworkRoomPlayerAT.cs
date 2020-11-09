@@ -30,6 +30,7 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
     public override void OnStartAuthority() {
         CmdSetDisplayName(PlayerNameInput.DisplayName);
         lobbyUI.SetActive(true);
+        if (isLeader) playerNameTexts[0].color = Color.blue;
     }
 
     public bool IsLeader {
@@ -127,7 +128,7 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
         for (int i = 0; i < nrInvestigators; i++) {
             roleIndex[i] = true;
         }
-
+        roleIndex = RandomizeArray(roleIndex);
         HandleRoleIndexChanged();
         RpcRoleIndexChanged(roleIndex);
     }
