@@ -10,6 +10,7 @@ public class NetworkGamePlayerAT : NetworkBehaviour {
     private string displayName = "Loading...";
 
     private NetworkManagerAT room;
+    public ChatBehaviour chatBehaviour;
 
     public bool isInvestigator = false;
 
@@ -42,5 +43,10 @@ public class NetworkGamePlayerAT : NetworkBehaviour {
 
     public string GetDisplayName() {
         return displayName;
+    }
+
+    public void ReceiveMessageFromChatbot(string r, int id) {
+        Debug.Log("received message :" + r);
+        chatBehaviour.ReceiveChatbotMessageFromPlayer(r, id);
     }
 } 

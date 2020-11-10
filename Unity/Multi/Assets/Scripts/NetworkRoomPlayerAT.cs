@@ -30,7 +30,6 @@ public class NetworkRoomPlayerAT : NetworkBehaviour
     public override void OnStartAuthority() {
         CmdSetDisplayName(PlayerNameInput.DisplayName);
         lobbyUI.SetActive(true);
-        if (isLeader) playerNameTexts[0].color = Color.blue;
     }
 
     public bool IsLeader {

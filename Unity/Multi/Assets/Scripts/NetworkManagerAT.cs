@@ -29,6 +29,8 @@ public class NetworkManagerAT : NetworkManager {
     private int nrAwareAI;
     private int nrPlayers;
 
+    public ChatbotBehaviour chatbot;
+
     public override void OnStartClient() {
         var spawnablePrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
 
